@@ -1,0 +1,60 @@
+# Created by https://www.gitignore.io/api/c++,packer,ansible,vagrant
+
+### Ansible ###
+*.retry
+
+### C++ ###
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+### Packer ###
+# Cache objects
+packer_cache/
+output-*/
+
+# For built boxes
+*.box
+
+# For build artifacts
+*.vdi
+
+### Vagrant ###
+.vagrant/
+
+# Install debug log
+packer.log
+
+# common backup/save files
+*.bck
+
+# End of https://www.gitignore.io/api/c++,packer,ansible,vagrant

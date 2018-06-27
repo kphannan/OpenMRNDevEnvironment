@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+##
+# Initial settings
+
+# Disable requiretty
+sudo sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
+
+# Vagrant
+
+mkdir -pm 700 /home/vagrant/.ssh
+curl -L https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub -o /home/vagrant/.ssh/authorized_keys
+chmod 0600 /home/vagrant/.ssh/authorized_keys
+chown -R vagrant /home/vagrant/.ssh
+
