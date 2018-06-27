@@ -8,8 +8,8 @@
     "PACKER_BOX_NAME": "CentOS-6.6-x86_64",
 
     "INSTALL_MEDIA": "DVD1",
-    "PACKER_INSTALL_MEDIA": "CentOS-6.9-x86_64-minimal",
-    "PACKER_INSTALL_MEDIA_CHECKSUM": "422af57b493b8af49d485885a730c5a1d955f803fac85aa51311c393168b9080",
+    "PACKER_INSTALL_MEDIA": "CentOS-6.6-x86_64-bin-DVD1",
+    "PACKER_INSTALL_MEDIA_CHECKSUM": "a63241b0f767afa1f9f7e59e6f0f00d6b8d19ed85936a7934222c03a92e61bf3",
 
     "AWS_ACCESS_KEY_ID": "{{env `AWS_ACCESS_KEY_ID`}}",
     "AWS_SECRET_ACCESS_KEY": "{{env `AWS_SECRET_ACCESS_KEY`}}",
@@ -84,18 +84,8 @@
     {
       "type": "shell",
       "scripts": [
-        "scripts/vagrant.sh",
-        "scripts/repo.sh",
-        "scripts/provision.sh",
-        "scripts/locale.sh",
-        "scripts/cleanup.sh"
+        "scripts/vagrant.sh"
       ]
-    },
-    {
-      "type": "salt-masterless",
-      "local_state_tree": "../../../provisioning/salt/srv/salt",
-      "local_pillar_roots": "../../../provisioning/salt/srv/pillar",
-      "minion_config": "../../../provisioning/salt/etc/salt/minion"
     }
   ],
   "post-processors": [
