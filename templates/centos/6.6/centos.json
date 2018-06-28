@@ -11,6 +11,9 @@
     "PACKER_INSTALL_MEDIA": "CentOS-6.6-x86_64-bin-DVD1",
     "PACKER_INSTALL_MEDIA_CHECKSUM": "a63241b0f767afa1f9f7e59e6f0f00d6b8d19ed85936a7934222c03a92e61bf3",
 
+    "VM_DIRECTORY": "/Volumes/VM Archive/vm-builds",
+    "VIRTUALBOX_DIRECTORY": "/Volumes/VM Archive/packer-box",
+
     "AWS_ACCESS_KEY_ID": "{{env `AWS_ACCESS_KEY_ID`}}",
     "AWS_SECRET_ACCESS_KEY": "{{env `AWS_SECRET_ACCESS_KEY`}}",
     "PACKER_ATLAS_TOKEN": "{{env `PACKER_ATLAS_TOKEN`}}",
@@ -77,7 +80,7 @@
       ],
       "shutdown_command": "echo '/sbin/halt -h -p' > /tmp/shutdown.sh; echo {{ user `ssh_name` }} | sudo -S sh '/tmp/shutdown.sh'",
 
-      "output_directory": "../../../../../vm-builds/virtualbox/{{ user `PACKER_BOX_NAME` }}/"
+      "output_directory": "{{ user `VM_DIRECTORY` }}/virtualbox/{{ user `PACKER_BOX_NAME` }}/"
     }
   ],
   "provisioners": [
@@ -92,7 +95,7 @@
     {
       "type": "vagrant",
       "keep_input_artifact": true,
-      "output": "../../../../../VMArchive/builds/{{.Provider}}/{{ user `PACKER_BOX_NAME` }}_{{.Provider}}.box"
+      "output": "{{ user `VIRTUALBOX_DIRECTORY` }}/{{.Provider}}/{{ user `PACKER_BOX_NAME` }}/{{ user `PACKER_BOX_NAME` }}.box"
     }
   ]
 }
