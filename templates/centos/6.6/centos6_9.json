@@ -1,0 +1,21 @@
+{
+  "_comment": "Build with `packer build -var-file=centos6_6.json centos.json`",
+
+  "OS_VERSION_MAJOR": "6",
+  "OS_VERSION_MINOR": "9",
+  "OS_ARCH": "x86_64",
+
+  "vm_name": "CentOS-6.9-x86_64",
+
+  "cpus": "1",
+  "memory": "1024",
+  "disk_size": "40000",
+
+  "iso_checksum": "d27cf37a40509c17ad70f37bc743f038c1feba00476fe6b69682aa424c399ea6",
+  "iso_checksum_type": "sha256",
+  "iso_name": "CentOS-6.9-x86_64-bin-DVD1.iso",
+  "iso_url":  "http://archive.kernel.org/centos-vault/6.9/isos/x86_64/CentOS-6.9-x86_64-bin-DVD1.iso",
+  "preseed" : "CentOS-6.9-x86_64/ks.cfg",
+  "boot_command_prefix": "<esc><esc><enter><wait>",
+  "virtualbox_guest_os_type": "RedHat_64"
+}
