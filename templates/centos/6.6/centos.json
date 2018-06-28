@@ -11,6 +11,8 @@
     "iso_checksum_type": "sha256",
     "iso_checksum": "a63241b0f767afa1f9f7e59e6f0f00d6b8d19ed85936a7934222c03a92e61bf3",
 
+    "preseed" : "CentOS-6.6-x86_64/ks.cfg",
+
     "VM_DIRECTORY": "/Volumes/VM Archive/vm-builds",
     "VIRTUALBOX_DIRECTORY": "/Volumes/VM Archive/packer-box",
 
@@ -24,7 +26,6 @@
 
     "ssh_name": "vagrant",
     "ssh_pass": "vagrant"
-
   },
   "builders": [
     {
