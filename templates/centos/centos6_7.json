@@ -1,0 +1,21 @@
+{
+  "_comment": "Build with `packer build -var-file=centos6_6.json centos.json`",
+
+  "OS_VERSION_MAJOR": "6",
+  "OS_VERSION_MINOR": "7",
+  "OS_ARCH": "x86_64",
+
+  "vm_name": "CentOS-6.7-x86_64",
+
+  "cpus": "1",
+  "memory": "1024",
+  "disk_size": "40000",
+
+  "iso_checksum": "c0c1a05d3d74fb093c6232003da4b22b0680f59d3b2fa2cb7da736bc40b3f2c5",
+  "iso_checksum_type": "sha256",
+  "iso_name": "CentOS-6.7-x86_64-bin-DVD1.iso",
+  "iso_url":  "http://archive.kernel.org/centos-vault/6.7/isos/x86_64/CentOS-6.7-x86_64-bin-DVD1.iso",
+  "preseed" : "ks.cfg",
+  "boot_command_prefix": "<esc><esc><enter><wait>",
+  "virtualbox_guest_os_type": "RedHat_64"
+}

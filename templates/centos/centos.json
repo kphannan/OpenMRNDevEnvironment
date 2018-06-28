@@ -38,7 +38,7 @@
       "iso_urls": [
         "/Volumes/Media/mirror/centos/{{ user `OS_VERSION_MAJOR` }}.{{ user `OS_VERSION_MINOR` }}/isos/{{ user `OS_ARCH` }}/{{ user `iso_name` }}",
         "file:///c:/mirror/centos/{{ user `OS_VERSION_MAJOR` }}.{{ user `OS_VERSION_MINOR` }}/isos/{{ user `OS_ARCH` }}/{{ user `iso_name` }}",
-        "http://mirror.cc.columbia.edu/pub/linux/centos/{{ user `OS_VERSION_MAJOR` }}/isos/{{ user `OS_ARCH` }}/{{ user `iso_name` }}"
+        "http://archive.kernel.org/centos-vault/{{ user `OS_VERSION_MAJOR` }}.{{ user `OS_VERSION_MINOR` }}/isos/{{ user `OS_ARCH` }}/{{ user `iso_name` }}"
       ],
 
       "communicator" : "ssh",
