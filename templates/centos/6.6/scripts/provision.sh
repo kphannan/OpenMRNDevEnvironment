@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-gi##
+##
 # VirtualBox
 # compiler (gcc) needed to build/install guest_additions
 yum -y install gcc kernel-devel
