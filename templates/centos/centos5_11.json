@@ -1,0 +1,21 @@
+{
+  "_comment": "Build with `packer build -var-file=centos5_11.json centos.json`",
+
+  "OS_VERSION_MAJOR": "5",
+  "OS_VERSION_MINOR": "11",
+  "OS_ARCH": "x86_64",
+
+  "vm_name": "CentOS-5.11-x86_64",
+
+  "cpus": "1",
+  "memory": "1024",
+  "disk_size": "40000",
+
+  "iso_checksum": "b6eb0565b636513b90663ff01c6ec4da5058baff0d7d4007d187be997dd985f8",
+  "iso_checksum_type": "sha256",
+  "iso_name": "CentOS-5.11-x86_64-bin-DVD-1of2.iso",
+  "iso_url":  "http://archive.kernel.org/centos-vault/5.11/isos/x86_64/CentOS-5.11-x86_64-bin-DVD-1of2.iso",
+  "preseed" : "ks.cfg",
+  "boot_command_prefix": "<esc><esc><enter><wait>",
+  "virtualbox_guest_os_type": "RedHat_64"
+}
