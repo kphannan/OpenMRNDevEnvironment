@@ -1,6 +1,10 @@
 #!/bin/bash
 
+set -x
+
 date > /tmp/box_build_time
+
+INSTALL_VAGRANT_KEY="${INSTALL_VAGRANT_KEY:-false}"
 
 SSH_USER=${SSH_USERNAME:-vagrant}
 SSH_PASS=${SSH_PASSWORD:-vagrant}

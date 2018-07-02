@@ -16,6 +16,11 @@
   "iso_name": "CentOS-6.9-x86_64-bin-DVD1.iso",
   "iso_url":  "http://archive.kernel.org/centos-vault/6.9/isos/x86_64/CentOS-6.9-x86_64-bin-DVD1.iso",
   "preseed" : "CentOS-6.9-x86_64/ks.cfg",
+
+  "ssh_wait_timeout": "15m",
+
   "boot_command_prefix": "<esc><esc><enter><wait>",
-  "virtualbox_guest_os_type": "RedHat_64"
+  "virtualbox_guest_os_type": "RedHat_64",
+
+  "CLEANUP_BUILD_TOOLS": "no"
 }

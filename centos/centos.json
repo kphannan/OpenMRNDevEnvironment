@@ -5,6 +5,9 @@
     "OS_VERSION_MINOR": "6",
     "OS_ARCH": "x86_64",
 
+    "INSTALL_VAGRANT_KEY": "true",
+    "CLEANUP_BUILD_TOOLS": "no",
+
     "vm_name": "CentOS-6.6-x86_64",
 
     "iso_name": "CentOS-6.6-x86_64-bin-DVD1.iso",
@@ -21,11 +24,14 @@
     "disk_size": "40000",
     "headless": "false",
     "memory": "512",
+
     "keep_input_artifact": "true",
     "mirror": "http://mirrors.kernel.org/centos",
 
     "ssh_name": "vagrant",
-    "ssh_pass": "vagrant"
+    "ssh_pass": "vagrant",
+    "ssh_handshake_attempts": "500",
+    "ssh_wait_timeout": "10m"
   },
   "builders": [
     {
@@ -46,7 +52,8 @@
       "ssh_username": "{{ user `ssh_name` }}",
       "ssh_password": "{{ user `ssh_pass` }}",
       "ssh_port": 22,
-      "ssh_wait_timeout": "10000s",
+      "ssh_wait_timeout": "{{ user `ssh_wait_timeout` }}",
+      "ssh_handshake_attempts": "{{ user `ssh_handshake_attempts` }}",
 
       "vm_name": "{{ user `vm_name` }}",
 
@@ -67,12 +74,13 @@
       "virtualbox_version_file": ".vbox_version",
 
       "http_directory": "http",
-      "boot_wait": "5s",
+      "boot_wait": "7s",
+
       "boot_command": [
         "<esc>",
         "<wait>",
         "linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `preseed` }}",
-        "<enter><wait>"
+        "<enter>"
       ],
       "shutdown_command": "echo '/sbin/halt -h -p' > /tmp/shutdown.sh; echo {{ user `ssh_name` }} | sudo -S sh '/tmp/shutdown.sh'",
 
@@ -83,7 +91,7 @@
     {
       "type": "shell",
       "scripts": [
-        "scripts/vagrant.sh"
+        "scripts/hello.sh"
       ]
     }
   ],

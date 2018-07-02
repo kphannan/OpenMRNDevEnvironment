@@ -10,5 +10,8 @@
   "memory": "1024",
   "preseed" : "CentOS-6.6-x86_64-minimal/ks.cfg",
   "boot_command_prefix": "<esc><esc><enter><wait>",
+
+  "ssh_wait_timeout": "7m",
+
   "virtualbox_guest_os_type": "RedHat_64"
 }
