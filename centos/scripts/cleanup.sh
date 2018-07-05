@@ -3,9 +3,9 @@
 CLEANUP_BUILD_TOOLS="${CLEANUP_BUILD_TOOLS:-false}"
 
 echo "==> Clear out machine id"
-#sudo touch /etc/machine-id.tmp && sudo chmod --reference /etc/machine-id /etc/machine_id.tmp && sudo chown --reference /etc/machine-id /etc/machine_id.tmp
+#touch /etc/machine-id.tmp && chmod --reference /etc/machine-id /etc/machine_id.tmp && chown --reference /etc/machine-id /etc/machine_id.tmp
 #rm -f /etc/machine-id
-#sudo mv /etc/machine_id.tmp /etc/machine_id
+#mv /etc/machine_id.tmp /etc/machine_id
 
 echo "==> Cleaning up temporary network addresses"
 # Make sure udev doesn't block our network
@@ -16,8 +16,8 @@ if grep -q -i "release 6" /etc/redhat-release ; then
 
     for ndev in `ls -1 /etc/sysconfig/network-scripts/ifcfg-*`; do
     if [ "`basename $ndev`" != "ifcfg-lo" ]; then
-        sudo sed -i '/^HWADDR/d' "$ndev";
-        sudo sed -i '/^UUID/d' "$ndev";
+        sed -i '/^HWADDR/d' "$ndev";
+        sed -i '/^UUID/d' "$ndev";
     fi
     done
 fi
@@ -25,8 +25,8 @@ fi
 touch /etc/udev/rules.d/75-persistent-net-generator.rules
 for ndev in `ls -1 /etc/sysconfig/network-scripts/ifcfg-*`; do
     if [ "`basename $ndev`" != "ifcfg-lo" ]; then
-        sudo sed -i '/^HWADDR/d' "$ndev";
-        sudo sed -i '/^UUID/d' "$ndev";
+        sed -i '/^HWADDR/d' "$ndev";
+        sed -i '/^UUID/d' "$ndev";
     fi
 done
 rm -rf /dev/.udev/
@@ -95,12 +95,12 @@ df -h
 #set -x
 
 #if rpm -q --whatprovides kernel | grep -Fqv $(uname -r); then
-#  rpm -q --whatprovides kernel | grep -Fv $(uname -r) | xargs sudo yum -y remove
+#  rpm -q --whatprovides kernel | grep -Fv $(uname -r) | xargs yum -y remove
 #fi
 
-#sudo yum --enablerepo=epel clean all
-#sudo yum history new
-#sudo truncate -c -s 0 /var/log/yum.log
+#yum --enablerepo=epel clean all
+#yum history new
+#truncate -c -s 0 /var/log/yum.log
 
 
 ##
@@ -110,13 +110,13 @@ df -h
 #sed -i "/^HWADDR/d" /etc/sysconfig/network-scripts/ifcfg-eth0
 
 ### KPH ### move these into a network provisioning script
-#sudo sed -i "s/^NM_CONTROLLED=\"yes\"/NM_CONTROLLED=\"no\"/" /etc/sysconfig/network-scripts/ifcfg-eth0
-#sudo sed -i "s/^NM_CONTROLLED=yes/NM_CONTROLLED=no/" /etc/sysconfig/network-scripts/ifcfg-eth0
-#sudo sed -i "s/^ONBOOT=\"no\"/ONBOOT=\"yes\"/" /etc/sysconfig/network-scripts/ifcfg-eth0
-#sudo sed -i "s/^ONBOOT=no/ONBOOT=yes/" /etc/sysconfig/network-scripts/ifcfg-eth0
+#sed -i "s/^NM_CONTROLLED=\"yes\"/NM_CONTROLLED=\"no\"/" /etc/sysconfig/network-scripts/ifcfg-eth0
+#sed -i "s/^NM_CONTROLLED=yes/NM_CONTROLLED=no/" /etc/sysconfig/network-scripts/ifcfg-eth0
+#sed -i "s/^ONBOOT=\"no\"/ONBOOT=\"yes\"/" /etc/sysconfig/network-scripts/ifcfg-eth0
+#sed -i "s/^ONBOOT=no/ONBOOT=yes/" /etc/sysconfig/network-scripts/ifcfg-eth0
 
-#sudo yum -y update
-#sudo yum -y clean all
+#yum -y update
+#yum -y clean all
 
 
 

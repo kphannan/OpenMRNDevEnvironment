@@ -1,14 +1,24 @@
 {
   "variables": {
 
-    "OS_VERSION_MAJOR": "6",
-    "OS_VERSION_MINOR": "6",
-    "OS_ARCH": "x86_64",
-
     "INSTALL_VAGRANT_KEY": "true",
     "CLEANUP_BUILD_TOOLS": "no",
+    "INSTALL_GUEST_ADDITIONS": "true",
+    "UPDATE": "true",
 
     "vm_name": "CentOS-6.6-x86_64",
+
+    "http_directory": "http",
+
+    "boot_command_prefix": "<esc><<wait>",
+    "boot_command_prefix-7": "<esc><esc><enter><wait>",
+    "boot_command_prefix-6": "<esc><wait>",
+    "boot_command-6": "linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `preseed` }}",
+
+    "iso_path_osx": "/Volumes/Media/mirror/centos/6.6/isos/x86_64",
+    "iso_path_win": "file:///c:/mirror/centos/6.6/isos/x86_64",
+    "iso_path_linux": "/mirror/centos/6.6/isos/x86_64",
+    "iso_url": "http://archive.kernel.org/centos-vault/6.6/isos/x86_64/entOS-6.6-x86_64-bin-DVD1.iso",
 
     "iso_name": "CentOS-6.6-x86_64-bin-DVD1.iso",
     "iso_checksum_type": "sha256",
@@ -28,23 +38,34 @@
     "keep_input_artifact": "true",
     "mirror": "http://mirrors.kernel.org/centos",
 
+    "shutdown_command-boxcutter": "echo 'vagrant'|sudo -S shutdown -P now",
     "ssh_name": "vagrant",
     "ssh_pass": "vagrant",
     "ssh_handshake_attempts": "500",
-    "ssh_wait_timeout": "10m"
+    "ssh_wait_timeout": "10m",
+
+    "version": "0.0.99",
+    "virtualbox_guest_os_type": "RedHat_64",
+    "virtualbox_paravirtprovider": "default",
+    "virtualbox_nictype": "virtio",
+
+    "vmware_guest_os_type": "centos-64"
   },
   "builders": [
     {
       "type": "virtualbox-iso",
+
       "format": "ova",
-      "guest_os_type": "RedHat_64",
+
+      "guest_os_type": "{{ user `virtualbox_guest_os_type` }}",
 
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_urls": [
-        "/Volumes/Media/mirror/centos/{{ user `OS_VERSION_MAJOR` }}.{{ user `OS_VERSION_MINOR` }}/isos/{{ user `OS_ARCH` }}/{{ user `iso_name` }}",
-        "file:///c:/mirror/centos/{{ user `OS_VERSION_MAJOR` }}.{{ user `OS_VERSION_MINOR` }}/isos/{{ user `OS_ARCH` }}/{{ user `iso_name` }}",
-        "http://archive.kernel.org/centos-vault/{{ user `OS_VERSION_MAJOR` }}.{{ user `OS_VERSION_MINOR` }}/isos/{{ user `OS_ARCH` }}/{{ user `iso_name` }}"
+        "{{ user `iso_path_osx` }}/{{ user `iso_name` }}",
+        "{{ user `iso_path_win` }}/{{ user `iso_name` }}",
+        "{{ user `iso_path_linux` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
       ],
 
       "communicator" : "ssh",
@@ -60,12 +81,15 @@
       "disk_size": "{{user `disk_size`}}",
       "hard_drive_interface": "sata",
 
-      "headless": "false",
+      "headless": "{{ user `headless` }}",
+
       "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
-        ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"],
-        ["modifyvm", "{{.Name}}", "--vram", "16"],
-        ["modifyvm", "{{.Name}}", "--nic1", "nat"]
+        ["modifyvm", "{{.Name}}", "--memory",           "{{user `memory`}}"],
+        ["modifyvm", "{{.Name}}", "--cpus",             "{{user `cpus`}}"],
+        ["modifyvm", "{{.Name}}", "--vram",             "16"],
+        ["modifyvm", "{{.Name}}", "--nic1",             "nat"],
+        ["modifyvm", "{{.Name}}", "--paravirtprovider", "{{ user `virtualbox_paravirtprovider` }}"],
+        ["modifyvm", "{{.Name}}", "--nictype1",         "{{ user `virtualbox_nictype` }}"]
       ],
 
       "guest_additions_mode": "upload",
@@ -73,12 +97,12 @@
 
       "virtualbox_version_file": ".vbox_version",
 
-      "http_directory": "http",
-      "boot_wait": "7s",
+      "http_directory": "{{ user `http_directory` }}",
+
+      "boot_wait": "5s",
 
       "boot_command": [
-        "<esc>",
-        "<wait>",
+        "{{ user `boot_command_prefix` }}",
         "linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `preseed` }}",
         "<enter>"
       ],
@@ -90,8 +114,59 @@
   "provisioners": [
     {
       "type": "shell",
+      "expect_disconnect": "true",
+      "execute_command": "echo {{ user `ssh_pass` }} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "environment_vars": [
+        "CLEANUP_BUILD_TOOLS={{user `CLEANUP_BUILD_TOOLS`}}",
+        "DESKTOP={{user `desktop`}}",
+        "INSTALL_VAGRANT_KEY={{ user `INSTALL_VAGRANT_KEY`}}",
+        "INSTALL_GUEST_ADDITIONS={{ user `INSTALL_GUEST_ADDITIONS`}}",
+        "UPDATE={{ user `UPDATE`}}",
+
+        "SSH_USERNAME={{user `ssh_username`}}",
+        "SSH_PASSWORD={{user `ssh_password`}}",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "ftp_proxy={{user `ftp_proxy`}}",
+        "rsync_proxy={{user `rsync_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
+      ],
       "scripts": [
-        "scripts/hello.sh"
+        "scripts/update.sh"
+      ]
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo {{ user `ssh_pass` }} | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "environment_vars": [
+        "CLEANUP_BUILD_TOOLS={{user `CLEANUP_BUILD_TOOLS`}}",
+        "DESKTOP={{user `desktop`}}",
+        "INSTALL_VAGRANT_KEY={{ user `INSTALL_VAGRANT_KEY`}}",
+        "INSTALL_GUEST_ADDITIONS={{ user `INSTALL_GUEST_ADDITIONS`}}",
+        "UPDATE={{ user `UPDATE`}}",
+
+        "SSH_USERNAME={{user `ssh_username`}}",
+        "SSH_PASSWORD={{user `ssh_password`}}",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "ftp_proxy={{user `ftp_proxy`}}",
+        "rsync_proxy={{user `rsync_proxy`}}",
+        "no_proxy={{user `no_proxy`}}"
+      ],
+      "scripts": [
+        "scripts/hello.sh",
+        "scripts/fix-slow-dns.sh",
+        "scripts/sshd.sh",
+        "scripts/vagrant.sh",
+        "scripts/desktop.sh",
+
+        "scripts/virtualbox.sh",
+        "scripts/vmware.sh",
+        "scripts/parallels.sh",
+
+        "scripts/motd.sh",
+        "scripts/custom-script.sh",
+        "scripts/cleanup.sh"
       ]
     }
   ],
