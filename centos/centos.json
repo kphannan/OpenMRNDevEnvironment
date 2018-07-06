@@ -4,6 +4,7 @@
     "INSTALL_VAGRANT_KEY": "true",
     "CLEANUP_BUILD_TOOLS": "no",
     "INSTALL_GUEST_ADDITIONS": "true",
+    "INSTALL_ANSIBLE": "true",
     "UPDATE": "true",
 
     "vm_name": "CentOS-6.6-x86_64",
@@ -13,7 +14,6 @@
     "boot_command_prefix": "<esc><<wait>",
     "boot_command_prefix-7": "<esc><esc><enter><wait>",
     "boot_command_prefix-6": "<esc><wait>",
-    "boot_command-6": "linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `preseed` }}",
 
     "iso_path_osx": "/Volumes/Media/mirror/centos/6.6/isos/x86_64",
     "iso_path_win": "file:///c:/mirror/centos/6.6/isos/x86_64",
@@ -141,6 +141,7 @@
       "environment_vars": [
         "CLEANUP_BUILD_TOOLS={{user `CLEANUP_BUILD_TOOLS`}}",
         "DESKTOP={{user `desktop`}}",
+        "INSTALL_ANSIBLE={{ user `INSTALL_ANSIBLE`}}",
         "INSTALL_VAGRANT_KEY={{ user `INSTALL_VAGRANT_KEY`}}",
         "INSTALL_GUEST_ADDITIONS={{ user `INSTALL_GUEST_ADDITIONS`}}",
         "UPDATE={{ user `UPDATE`}}",
@@ -160,10 +161,13 @@
         "scripts/vagrant.sh",
         "scripts/desktop.sh",
 
+        "scripts/repositories.sh",
+
         "scripts/virtualbox.sh",
         "scripts/vmware.sh",
         "scripts/parallels.sh",
 
+        "scripts/ansible.sh",
         "scripts/motd.sh",
         "scripts/custom-script.sh",
         "scripts/cleanup.sh"

@@ -14,6 +14,7 @@
   "ssh_wait_timeout": "7m",
 
   "INSTALL_GUEST_ADDITIONS": "false",
+  "INSTALL_ANSIBLE": "true",
   "UPDATE": "false"
 
 }
